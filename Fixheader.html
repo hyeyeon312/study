@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <title>Document</title>
+    <style>
+        .container {
+            width: 100%;
+            height: 1100px;
+            margin: 0 auto;
+        }
+        #counter{ 
+            width: 500px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            background-color: orange;
+            margin: 0 auto;
+        }
+        .counter-value { 
+        font-weight:bold;
+        font-size: 48px; 
+        text-align:center;
+        padding:16px 0;
+        width: 150px;
+        }
+        .counter-value:after {
+        content: attr(data-desc);
+        display:block;
+        text-transform:uppercase;
+        font-weight:lighter;
+        font-size: 13px; 
+        }
+    </style>
+</head>
+<body>
+    <div style="height: 1000px;" class="container"></div>
+    <div id="counter">
+        <div class="counter-value" data-count="283" data-desc="개설된 박물관">20</div>
+        <div class="counter-value" data-count="300" data-desc="개설된 초등학교">20</div>
+        <div class="counter-value" data-count="350" data-desc="개설된 중학교">20</div>
+    </div>
+    
+
+</body>
+<script>
+
+    var a = 0;
+    
+    $(window).scroll(function() {
+      var counter_height = $('#counter').offset().top - window.innerHeight;
+      if (a == 0 && $(window).scrollTop() > counter_height) {
+    
+        $('.counter-value').each(function() {
+          var $this = $(this),
+            countTo = $this.attr('data-count');
+          $({
+            countNum: $this.text()
+          }).animate({
+              countNum: countTo
+            },
+            {
+              duration: 2000,
+              easing: 'swing',
+              step: function() {
+                $this.text(Math.floor(this.countNum));
+              },
+              complete: function() {
+                $this.text(this.countNum);
+              }
+            });
+        });
+        a = 1;
+      }
+    });
+    </script>
+
+</html>
